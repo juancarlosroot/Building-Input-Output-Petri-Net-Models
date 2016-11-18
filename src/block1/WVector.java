@@ -11,14 +11,16 @@ package block1;
  */
 class WVector {
 
-    IntegerArray inputs;
-    IntegerArray outputs;
-    SCRE scre;
+    private IntegerArray inputs;
+    private IntegerArray outputs;
+    private float time;
+    private SCRE scre;
     
-    public WVector(Integer[] inputs, Integer[] outputs) {
+    public WVector(Integer[] inputs, Integer[] outputs, float time) {
         this.inputs = new IntegerArray(inputs);
         this.outputs = new IntegerArray(outputs);
         this.scre = new SCRE(this.inputs); 
+        this.time = time;
     }
 
     public IntegerArray getInputs() {
@@ -40,6 +42,14 @@ class WVector {
     public SCRE getScre() {
         return scre;
     }
+
+    public float getTime() {
+        return time;
+    }
+
+    public void setTime(float time) {
+        this.time = time;
+    }
     
     public boolean isEntrance0()
     {
@@ -58,6 +68,7 @@ class WVector {
 
     public void print()
     {
+        System.out.print(this.time+"\t");
         for(int i = 0; i < inputs.getArray().length; i++)
             System.out.print(inputs.getArray()[i] + " ");
         System.out.print("| ");

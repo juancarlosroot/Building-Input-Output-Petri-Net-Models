@@ -23,16 +23,16 @@ import java.util.Set;
 
 public class Block1 {
 
-    ArrayList<WVector> listE;
-    ArrayList<WVector> listRE;
+    ArrayList<WVector> listE;//
+    ArrayList<WVector> listRE;//
 
     public Block1() {
-        listE = new ArrayList<WVector>();
-        listRE = new ArrayList<WVector>();
+        listE = new ArrayList<WVector>();//
+        listRE = new ArrayList<WVector>();//variables globales inicializadas en el constructor del objeto
     }
 
     public static void main(String[] args) {
-        String inputFileName = "e.txt";
+        String inputFileName = "e.txt";// opcional para guardar los archivos
         String outputFileName = "05_10_2011-2_1.txt";
 
         Block1 block1 = new Block1();
@@ -44,24 +44,34 @@ public class Block1 {
 
         block1.Algorithm1();
 
-//        System.out.println(block1.listE.indexOf(block1.listRE.get(0)));
     }
 
+/**
+ * No retorna nada, guarda los valores de E y RE en las listas(globales). 
+ * Sirve para dar los parámetros de entrada del programa
+ * <p>
+ * Guarda los vectores en objetos
+ *
+ * @param  inputFileName  nombre del txt que vamos a leer(vectores w)
+ * @param  outputFileName nombre del archivo donde se guardaran los nuevos valores(por el momento no lo uso)
+ * @return      --
+ * @see         WVector
+ */   
     public void readFile(String inputFileName, String outputFileName) {
         File nFile = new File(inputFileName);
         try (
-                BufferedReader br = new BufferedReader(new FileReader(outputFileName));
-                FileWriter fw = new FileWriter(nFile.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter out = new PrintWriter(bw);) {
-            String sPastLine = null;
-            String sCurrentLine = null;
+                BufferedReader br = new BufferedReader(new FileReader(outputFileName));// buffer para leer
+                FileWriter fw = new FileWriter(nFile.getAbsoluteFile());// obj para abrir archivo y excribir
+                BufferedWriter bw = new BufferedWriter(fw);// obj para guardar y preparar para escribir
+                PrintWriter out = new PrintWriter(bw);/*obj para escribir*/) {
+            String sPastLine = null;// lo usamos para 
+            String sCurrentLine = null;// iterar en la línea actual del archivo
 
             if (!nFile.exists()) {
-                nFile.createNewFile();
+                nFile.createNewFile();// si el archivo no existe, se crea
             }
 
-            while ((sCurrentLine = br.readLine()) != null) {
+            while ((sCurrentLine = br.readLine()) != null) {// iteramos igualando a la línea actual
                 if (sPastLine == null) {
                     sPastLine = sCurrentLine;
                 } else {
@@ -77,30 +87,33 @@ public class Block1 {
                             int w0 = Character.getNumericValue(sPastLine.split("\t")[1].charAt(i));
                             int w1 = Character.getNumericValue(sCurrentLine.split("\t")[1].charAt(i));
                             array_Inputs[i] = w1 - w0;
-                            // sInputs += Integer.toString(w1 - w0);
                         }
 
                         for (int i = 0; i < sCurrentLine.split("\t")[2].length(); i++) {
                             int w0 = Character.getNumericValue(sPastLine.split("\t")[2].charAt(i));
                             int w1 = Character.getNumericValue(sCurrentLine.split("\t")[2].charAt(i));
                             array_Outputs[i] = w1 - w0;
-                            // sOutputs += Integer.toString(w1 - w0);
                         }
 
-                        WVector wVector = new WVector(array_Inputs, array_Outputs);
+                        /*
+                            1. Hace un split de la línea, utiliza como separador el tabulador(\n)
+                            2. Creamos un objeto vector con los nuevos valores
+                            3. Agregamos el objeto donde corresponda, se agregan a E la resta (vectores - 1)
+                                Si se identifica que su salida es diferente a cero se agregan a RE
+                        */
+                        WVector wVector = new WVector(array_Inputs, array_Outputs, Float.parseFloat(sCurrentLine.split("\t")[0]));
 
                         if (outputDifferentTo0(array_Outputs)) {
-                            // out.println(sInputs + "\t" + sOutputs);
                             this.listRE.add(wVector);
                         }
                         this.listE.add(wVector);
                     }
 
-                    sPastLine = sCurrentLine;//Guardando la línea pasada 🐶
+                    sPastLine = sCurrentLine;//Guardando la línea pasada 
                 }
 
             }
-
+            //cerramos todo lo que tenga que ver con leer y escribir archivos
             out.close();
             bw.close();
             fw.close();
@@ -129,7 +142,7 @@ public class Block1 {
             {
                 lastAdded = listE.indexOf(listRE.get(lastAdded)) - 1;    
                 System.out.println(lastAdded);
-                added = OES.add(listE.get(lastAdded).inputs);
+                added = OES.add(listE.get(lastAdded).getInputs());
             }
 
             if (added) {
