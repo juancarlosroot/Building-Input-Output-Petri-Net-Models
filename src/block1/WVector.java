@@ -10,32 +10,32 @@ package block1;
  * @author juancarlosroot
  */
 class WVector {
-
-    private IntegerArray inputs;
-    private IntegerArray outputs;
+    //leer clase IntegerArray
+    private IntegerArray inputs;//entradas
+    private IntegerArray outputs;//salidas
     private float time;
     private SCRE scre;
     
-    public WVector(Integer[] inputs, Integer[] outputs, float time) {
+    public WVector(Integer[] inputs, Integer[] outputs, float time) {// constructor
         this.inputs = new IntegerArray(inputs);
         this.outputs = new IntegerArray(outputs);
         this.scre = new SCRE(this.inputs); 
         this.time = time;
     }
 
-    public IntegerArray getInputs() {
+    public IntegerArray getInputs() {// get objeto IntegerArray correspondiente a los inputs/entradas
         return inputs;
     }
 
-    public void setInputs(IntegerArray inputs) {
+    public void setInputs(IntegerArray inputs) {// set objeto IntegerArray correspondiente a los inputs/entradas
         this.inputs = inputs;
     }
 
-    public IntegerArray getOutputs() {
+    public IntegerArray getOutputs() {// get objeto IntegerArray correspondiente a los outputs/salidas
         return outputs;
     }
 
-    public void setOutputs(IntegerArray outputs) {
+    public void setOutputs(IntegerArray outputs) {// set objeto IntegerArray correspondiente a los outputs/salidas
         this.outputs = outputs;
     }
 
@@ -47,18 +47,18 @@ class WVector {
         return time;
     }
 
-    public void setTime(float time) {
+    public void setTime(float time) {// set el tiempo del vector
         this.time = time;
     }
     
-    public boolean isEntrance0()
+    public boolean isEntrance0()// método para verificar si sus entradas son 0
     {
         for(int i = 0; i < inputs.getArray().length; i++)
             if(inputs.getArray()[i] != 0)
                 return false;
         return true;
     }
-    public boolean isOutput0()
+    public boolean isOutput0()// método para verificar si sus salidas son 0
     {
         for(int i = 0; i < outputs.getArray().length; i++)
             if(outputs.getArray()[i] != 0)
@@ -66,7 +66,7 @@ class WVector {
         return true;
     }
 
-    public void print()
+    public void print()//imprime todo lo que lleva el vector
     {
         System.out.print(this.time+"\t");
         for(int i = 0; i < inputs.getArray().length; i++)

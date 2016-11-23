@@ -11,9 +11,12 @@ package block1;
  */
 public class IntegerArray {
 
-    Integer[] array;
+    //el motivo de esta clase es para evitar problemas con los códigos hash, en caso de que no se utilicen se puede
+    //cambiar el objeto por un array normal(clase WVector)
+    
+    Integer[] array;// contiene un arreglo
 
-    public IntegerArray(Integer[] array) {
+    public IntegerArray(Integer[] array) {// contructor
         this.array = array;
     }
 
@@ -26,17 +29,17 @@ public class IntegerArray {
     }
     
     @Override
-    public int hashCode() {
+    public int hashCode() {// se crea un nuevo código para el objeto(IntegerArray)
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < array.length; i++) {
             buffer.append(array[i]);
         }
 
-        return buffer.toString().hashCode(); //To change body of generated methods, choose Tools | Templates.
+        return buffer.toString().hashCode(); 
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object) {// Iterador para comparar entre objetos del mismo tipo
         if (object == null) {
             return false;
         }
