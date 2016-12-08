@@ -10,8 +10,8 @@ package block1;
  * @author juancarlosroot
  */
 public class SCRE {
-    IntegerArray array;
-    Boolean []SCRE;
+    private IntegerArray array;
+    private Boolean []SCRE;
     
     public SCRE(IntegerArray arary) {
         this.array = arary;
@@ -38,6 +38,10 @@ public class SCRE {
         }
     }
     
+    public void setSCRE(Boolean nSCRE, int i) {
+        this.SCRE[i] = nSCRE;
+    }
+    
     private void initialSCRE()
     {   
         this.SCRE = new Boolean[this.array.getArray().length];
@@ -49,10 +53,10 @@ public class SCRE {
                     this.SCRE[i] = true;
                 break;
                 case -1:
-                    this.SCRE[i] = false;
+                    this.SCRE[i] = null;
                 break;
                 case 0:
-                    this.SCRE[i] = null;
+                    this.SCRE[i] = false;
                 break;
             }
         }

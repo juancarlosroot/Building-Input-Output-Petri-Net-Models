@@ -5,6 +5,8 @@
  */
 package block1;
 
+import java.util.Objects;
+
 /**
  *
  * @author juancarlosroot
@@ -32,10 +34,18 @@ public class IntegerArray {
     public int hashCode() {// se crea un nuevo código para el objeto(IntegerArray)
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < array.length; i++) {
-            buffer.append(array[i]);
+            buffer.append(array[i]*i);
         }
-
         return buffer.toString().hashCode(); 
+    }
+    
+    @Override
+    public String toString(){
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < this.array.length; i++) {
+            buffer.append(this.array[i]*i);
+        }
+        return buffer.toString(); 
     }
 
     @Override
@@ -50,10 +60,22 @@ public class IntegerArray {
             return false;
         }
         IntegerArray integerArray = (IntegerArray) object;
-        if (this.hashCode() == integerArray.hashCode()) {
+        /*if (this.hashCode() == integerArray.hashCode()) {
             return true;
         }
-        return false;
+        boolean flag = true;*/
+        for (int i = 0; i < array.length; i++) {
+            if(!Objects.equals(this.array[i], integerArray.array[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public void add(Integer[] array){
+        for (int i = this.array.length; i < array.length; i++) {
+            this.array[i] = array[i];
+        }
     }
 
 }
