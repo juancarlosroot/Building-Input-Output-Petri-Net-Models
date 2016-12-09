@@ -14,13 +14,15 @@ class WVector {
     private IntegerArray inputs;//entradas
     private IntegerArray outputs;//salidas
     private float time;
-    private SCRE scre;
+    private int index;
+    //private SCRE scre;
     
     public WVector(Integer[] inputs, Integer[] outputs, float time) {// constructor
         this.inputs = new IntegerArray(inputs);
         this.outputs = new IntegerArray(outputs);
-        this.scre = new SCRE(this.inputs); 
+        //this.scre = new SCRE(this.inputs); 
         this.time = time;
+        this.index = 0;
     }
 
     public IntegerArray getInputs() {// get objeto IntegerArray correspondiente a los inputs/entradas
@@ -39,9 +41,9 @@ class WVector {
         this.outputs = outputs;
     }
 
-    public SCRE getScre() {
+    /*public SCRE getScre() {
         return scre;
-    }
+    }*/
 
     public float getTime() {
         return time;
@@ -49,6 +51,14 @@ class WVector {
 
     public void setTime(float time) {// set el tiempo del vector
         this.time = time;
+    }
+    
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {// set el tiempo del vector
+        this.index = index;
     }
     
     public boolean isEntrance0()// método para verificar si sus entradas son 0
@@ -75,8 +85,8 @@ class WVector {
         for(int i = 0; i < outputs.getArray().length; i++)
             System.out.print(outputs.getArray()[i] + " ");
         System.out.print("| ");
-        for(int i = 0; i < scre.getSCRE().length; i++)
-            System.out.print(scre.getSCRE()[i] + " ");
+        /*for(int i = 0; i < scre.getSCRE().length; i++)
+            System.out.print(scre.getSCRE()[i] + " ");*/
         System.out.print("\n");
     }
 }
