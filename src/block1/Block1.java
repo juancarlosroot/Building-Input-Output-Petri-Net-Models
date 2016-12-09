@@ -84,6 +84,7 @@ public class Block1 {
         block1.Algorithm1();
 
         block1.Algorithm2();
+        block1.PrintS();
     }
 
     /**
@@ -307,7 +308,7 @@ public class Block1 {
                         {
                             Gei.add(Fr.getSRE());
                             Omegai.get(h).add(Fr);
-                            Omega.get(h).remove(Fr);
+                            Omega.get(h).remove(Fr);//SE SALT6A UN ELEMENTO , CORREGIR
                         }
                     }
                     T.add(Fr.getSRE());
@@ -467,6 +468,12 @@ public class Block1 {
         for (int i = 0; i < FS.size(); i++ ){
             System.out.println("FS id= "+FS.get(i).getIdFr()+
                     "  FS time= "+FS.get(i).getTime());
+        }
+    }
+    
+    public void PrintS(){
+        for(Fr f: S){
+           System.out.println("T"+f.getId());
         }
     }
 
