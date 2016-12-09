@@ -42,7 +42,7 @@ public class Block1 {
     //private ArrayList<FS> S;
     private ArrayList<Fr> S;
     private ArrayList<ST> ST;
-    private Set<SRE> T;
+    private Set<Fr> T;
     private ArrayList<Lambda> Lambda;
     private ArrayList<SOE> OESPrueba;
     //private ArrayList<String> writeFile;
@@ -289,7 +289,7 @@ public class Block1 {
         ArrayList<Fr> LambdaPrima = new ArrayList<>();
         //ArrayList<FS> LambdaPrima = new ArrayList<>();
         //Set<SRE> LambdaPrima = new HashSet<>();
-        Iterator<SRE> TIt = T.iterator();
+        //Iterator<SRE> TIt = T.iterator();
         ST ObjetoST;
         for(int h=0; h<OESPrueba.size(); h++)
         {
@@ -310,7 +310,7 @@ public class Block1 {
                             Omega.get(h).remove(Fr);
                         }
                     }
-                    T.add(Fr.getSRE());
+                    T.add(Fr);
                     if(Omegai.size() > i)
                     {
                         int TamanoOmegai = Omegai.get(i).size();
@@ -327,7 +327,7 @@ public class Block1 {
                                     Omegas.add(Omegai.get(i).get(j));
                                 i++;
                             }
-                            TIt.hasNext();
+                            //TIt.hasNext();
                         }
                     }
                 }
