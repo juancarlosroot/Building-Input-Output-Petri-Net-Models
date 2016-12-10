@@ -205,11 +205,7 @@ public class Merge{
 				// output pretty printed
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				jaxbMarshaller.marshal(pnml, file);
-<<<<<<< HEAD
-				//jaxbMarshaller.marshal(pnml, System.out);
-=======
 				jaxbMarshaller.marshal(pnml, System.out);
->>>>>>> Equipo2
 			} 
 		    catch (JAXBException e){
 				e.printStackTrace();
@@ -264,10 +260,6 @@ public class Merge{
         return newMatrix;
         
     }
-<<<<<<< HEAD
-        
-=======
->>>>>>> Equipo2
         /*       
 	public static void main(String[] args) {
 		TwoMatrix tm=readMatrix("observable.txt","non-observable.txt");
