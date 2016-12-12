@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.*;
 import java.util.Arrays;
+import workflow.processMining;
 
 public class Block1 {
 
@@ -472,9 +473,12 @@ public class Block1 {
     }
     
     public void PrintS(){
+        String cad="";
         for(Fr f: S){
-           System.out.println("T"+f.getId());
+           cad=cad+"T"+f.getId()+" ";          
         }
+        cad=cad.substring(0, cad.length()-1);
+        processMining ps=new processMining(cad);
     }
 
 }
