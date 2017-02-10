@@ -14,13 +14,21 @@ import java.util.ArrayList;
 public class ST 
 {
     //private FS LambdaPrima;
-    private Fr LambdaPrima;
+    private LambdaPrima LambdaPrima;
     float timeFr;
     
     //public ST(FS LambdaPrimaRecibida, float Tau)
-    public ST(Fr LambdaPrimaRecibida, float Tau)
+    public ST(LambdaPrima LambdaPrimaRecibida, float Tau)
     {
         this.LambdaPrima = LambdaPrimaRecibida;
         this.timeFr = Tau;
+    }
+    
+    public float getTimeFr(){
+        return timeFr;
+    }
+    
+    public LambdaPrima lambdaP(){
+        return LambdaPrima;
     }
 }

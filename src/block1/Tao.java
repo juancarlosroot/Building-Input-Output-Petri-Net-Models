@@ -6,20 +6,18 @@
 package block1;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  *
- * @author luise
+ * @author yolanda
  */
-public class Lambda 
-{
-    private SRE Gei;
-    private ArrayList<SCRE> Gci;
+public class Tao {
+    ArrayList<Fr> Frs;
     
-    public Lambda(SRE Gi, ArrayList Gc)
-    {
-        this.Gei = Gi;
-        this.Gci = Gc;
+    public Tao(ArrayList frs){
+        Frs = frs;
     }
+    
+    
+    
 }

@@ -38,13 +38,15 @@ public class Block1 {
     private Set<IntegerArray> FOO;
     private ArrayList<FS> FS;
     private ArrayList<Fr> F;
-    private Set<SRE> OES;
+    //private Set<SOE> OES;
+    private Set<IntegerArray> OES;
     //private ArrayList<FS> S;
-    private ArrayList<Fr> S;
+    private ArrayList<LambdaPrima> S;
     private ArrayList<ST> ST;
-    private Set<Fr> T;
+    private ArrayList<Integer> T;
     private ArrayList<Lambda> Lambda;
     private ArrayList<SOE> OESPrueba;
+    private Set<Integer> iOm;
     //private ArrayList<String> writeFile;
 
     public Block1() {
@@ -61,15 +63,16 @@ public class Block1 {
         OES = new HashSet<>();
         S = new ArrayList<>();
         ST = new ArrayList<>();
-        T = new HashSet<>();
+        T = new ArrayList<>();
         Lambda = new ArrayList<>();
         OESPrueba = new ArrayList<>();
+        iOm = new HashSet<>();
     }
 
     public static void main(String[] args) {
         String inputFileName = "e.txt";// opcional para guardar los archivos
         //String outputFileName = "05_10_2011-2_1.txt";
-        String outputFileName = "pru.txt";
+        String outputFileName = "W.txt";
 
         Block1 block1 = new Block1();
 
@@ -178,6 +181,7 @@ public class Block1 {
                         }
                         this.listE.add(wVector);
                         index += 1;
+                         
                     }
 
                     sPastLine = sCurrentLine;//Guardando la línea pasada 
@@ -195,20 +199,33 @@ public class Block1 {
     }
 
     public int Algorithm1() {       
-        
+        int contFr=0;
         FS tempFS;
         Fr tempFr;
         IntegerArray c;
         Integer[] REInputs,REOutputs;
         int r = 0, k;
         float timeFr;
+        for (int h = 0; h < listE.size(); h++) {
+            writeFileE("e.txt", h);
+        }
+        for (int h = 0; h < listRE.size(); h++) {
+            writeFile("re.txt", h);
+        }
+        for (int h = 0; h < listW.size(); h++) {
+            writeFileW("W.txt", h);
+        }
+        
+        
         for (int h = 0; h < listRE.size(); h++) {
             k = listRE.get(h).getIndex();
             if (!listRE.get(h).isEntrance0()) {                
                 this.sre = new SRE(listE.get(k).getInputs());
+                //this.sre.printSRE();
             }
             else{
                 this.sre = new SRE(listE.get(k-1).getInputs());
+                //this.sre.printSRE();
             }
             this.scre = new SCRE(listW.get(k+1).getInputs());
             if(h == 0){
@@ -221,8 +238,9 @@ public class Block1 {
                 //PrintSCRE(k);
             }
             this.soe = new SOE(listE.get(k).getOutputs());
+            //this.soe.printSOE();
             //PrintSOE(k);
-            writeFile("e.txt", h);
+            //writeFile("re.txt", h);---------------------------------------------------------------------------------
             tempFr = new Fr(this.soe, this.sre, this.scre, h);
             this.fr.add(tempFr);
             //Concatenar Inputs y Outputs   
@@ -232,17 +250,26 @@ public class Block1 {
             temp.addAll(Arrays.asList(REInputs));
             temp.addAll(Arrays.asList(REOutputs));
             Integer [] concatedArgs = temp.toArray(new Integer[REInputs.length+REOutputs.length]);
-            OESPrueba.add(this.soe);
+            //OESPrueba.add(this.soe);
+            if(OES.add(this.soe.getArraySOE())){
+                //this.soe.printSOE();
+                OESPrueba.add(this.soe);
+                //this.soe.printSOE();
+                //this.soe.printArraySOE();
+            }
+            
         //Termina concatenar    
             c = new IntegerArray(concatedArgs);
+            
             if(FOO.add(c)){
                 timeFr = listRE.get(h).getTime();
                 FInputs.add(c);
-                F.add(tempFr);
-                r += 1;                
+                F.add(tempFr);                                
                 time.add(timeFr);
-                tempFS = new FS(h,timeFr);
+                tempFS = new FS(r,timeFr);
                 FS.add(tempFS);
+                //System.out.println(Arrays.toString(c.array));
+                r += 1;
             }
             else{   
                 timeFr = listRE.get(h).getTime();
@@ -250,10 +277,13 @@ public class Block1 {
                 FS.add(tempFS);
                 FS.get(h).setIdFr(recalculateId(r,c));         
                 time.add(timeFr);
+                contFr=contFr+1;
+                //System.out.println(Arrays.toString(c.array));
             }
         }
         PrintFS();
         PrintF();
+        System.out.println("Tamano OES: "+this.OES.size());
         return 0;
     }
     
@@ -263,102 +293,136 @@ public class Block1 {
         System.out.println("=== EMPIEZA ALGORITMO 2 ===");
         
         ArrayList<ArrayList<Fr>> Omega = new ArrayList<>();
-                
+        int z=0;  
+        
         //Parte 2: Finding functions with the sale output event (oe)
         for(int i=0; i<OESPrueba.size(); i++)
         {
+            Boolean ban=false;
             Omega.add(new ArrayList<>());
             Boolean[] oe = OESPrueba.get(i).getSOE();
 
-            for(int j=0; j<F.size(); j++)
-            {
-                int idParaCalcularRho = FS.get(j).getIdFr();
-                SOE Rho = F.get(idParaCalcularRho).getSOE();
-                if(Rho.getSOE() == oe)
-                    Omega.get(i).add(F.get(j));
+            for(int j=0; j<F.size(); j++){                
+                if(F.get(j).getSOE().compareSOE(OESPrueba.get(i))){
+                    if(iOm.add(j)){
+                        Omega.get(z).add(F.get(j));
+                        ban=true;
+                    }
+                }
+            }
+            if(ban){
+                z++;
             }
         }
         
+        /*for(int i=0;i<Omega.size();i++){
+            for(int j=0;j<Omega.get(i).size();j++){
+                System.out.print(" Omega("+i+")= "+Omega.get(i).get(j).getId());
+            }
+            System.out.println(" ");
+        }*/
+                            
+        
         //Parte 3: Gathering the functions in Omega(oe) that have the same SRE
-        ArrayList<Fr> Omegas = new ArrayList<>();
-        ArrayList<ArrayList<Fr>> Omegai = new ArrayList<>();
-        Set<SRE> Gei = new HashSet<>();
+        ArrayList<ArrayList<Fr>> Omegas = new ArrayList<>();
+        ArrayList<Fr> Omegai = new ArrayList<>();
+        ArrayList<SRE> Gei = new ArrayList<>();
         Fr Ff = null;
         Fr Fr = null;
         Lambda LambdaAux = null;
-        ArrayList<Fr> LambdaPrima = new ArrayList<>();
+        ArrayList<LambdaPrima> LambdaPrima = new ArrayList<>();
         //ArrayList<FS> LambdaPrima = new ArrayList<>();
         //Set<SRE> LambdaPrima = new HashSet<>();
         //Iterator<SRE> TIt = T.iterator();
         ST ObjetoST;
         for(int h=0; h<OESPrueba.size(); h++)
         {
-            Omegai.add(new ArrayList<>());
+            //Omegai.add(new ArrayList<>());
             int i = 1;
-            while(Omega.get(h) != null)
+            while(!Omega.get(h).isEmpty())
             {
-                if(Omega.get(h).isEmpty() == false)
+                Omegai = new ArrayList<>();
+                Ff = Omega.get(h).get(0);
+                for(int j=0; j<Omega.get(h).size(); j++)
                 {
-                    Ff = Omega.get(h).get(0);
-                    for(int j=0; j<Omega.get(h).size(); j++)
+                    Fr = Omega.get(h).get(j);
+                    if(Ff.getSRE().compareSRE(Fr.getSRE()))
                     {
-                        Fr = Omega.get(h).get(j);
-                        if(Ff.getSRE() == Fr.getSRE())
-                        {
-                            Gei.add(Fr.getSRE());
-                            Omegai.get(h).add(Fr);
-                            Omega.get(h).remove(Fr);
-                        }
-                    }
-                    T.add(Fr);
-                    if(Omegai.size() > i)
-                    {
-                        int TamanoOmegai = Omegai.get(i).size();
-                        for(int j=0; j<TamanoOmegai; j++)
-                        {
-                            //LambdaPrima.add(FS.get(j));
-                            //TIt = TIt.hasNext();
-                            //LambdaPrima.add(T.equals(TIt));
-                            if(i < Omegai.size())
-                            {
-                                if(j < Omegai.get(i).size())
-                                    LambdaPrima.add(Omegai.get(i).get(j));
-                                if(Omegai.get(i).size() > j)
-                                    Omegas.add(Omegai.get(i).get(j));
-                                i++;
-                            }
-                            //TIt.hasNext();
-                        }
+                        Gei.add(Fr.getSRE());
+                        Omegai.add(Fr);
+                        Omega.get(h).remove(Fr);
+                        System.out.print(" Omegai("+i+")= "+Fr.getId());
                     }
                 }
-                else
-                    break;
+                System.out.println(" ");
+                T.add(i);
+                
+                
+                for(int j=0; j<Omegai.size(); j++)
+                {
+                    LambdaPrima.add(new LambdaPrima(Omegai.get(j),i));
+                    //Omegas.add(Omegai);
+                    //System.out.print("  Omegas("+i+")= "+Omegai.get(j).getId());
+                }
+                Omegas.add(Omegai);
+                i++; 
+                //System.out.println("");
+                ///Omegai.remove(index).add();
             }
         }
         
+        
+        /*for(int i=0;i<Omegai.size();i++){
+            for(int j=0;j<Omegai.get(i).size();j++){
+                System.out.print("  Omegai("+i+")= "+Omegai.get(i).get(j).getId());
+            }
+            System.out.println(" ");
+        }*/
+        
+        /*for(int i=0;i<Gei.size();i++){            
+            System.out.println("  Gei("+i+")= "+Gei.get(i).getSRE().length);
+            
+            //System.out.println(" ");
+        }*/
+        
         //Parte 4: Building compound functions
-        for(int i=0; i<Omegas.size(); i++)
+        
+        /*ArrayList<SCRE> gc = new ArrayList<>(); 
+        for(int h=0; h<Omegai.size(); h++)
         {
-            LambdaAux = new Lambda(Gei, Omegas.get(i));
+            for (int j=0; j<Omegas.get(h).size(); j++){
+                gc.add(Omegai.get(h).get(j).getSCRE());
+            }
+            LambdaAux = new Lambda(Gei.get(h), gc);
             Lambda.add(LambdaAux);
         }
         
         //Parte 5: Transition sequence formation
         for(int i=0; i<FS.size(); i++)
         {
-            if(LambdaPrima.isEmpty() == false)
-            {
-                if(LambdaPrima.size() > i)
-                {
-                    S.add(LambdaPrima.get(i));
-                    ObjetoST = new ST(LambdaPrima.get(i), FS.get(i).getTime());
+            for (int x=0; x<LambdaPrima.size();x++){
+                if(FS.get(i).getIdFr()==LambdaPrima.get(x).fr.getId()){
+                    S.add(LambdaPrima.get(x));
+                    ObjetoST = new ST(LambdaPrima.get(x), FS.get(i).getTime());
                     ST.add(ObjetoST);
                 }
-                else
-                    break;
-            }
-        }
+            }     
+            
+        }*/
         
+        /*for(int ww=0;ww<Omegas.size();ww++){            
+            System.out.println("  Omegas("+ww+")= "+Omegas.get(ww).getId());
+            
+            //System.out.println(" ");
+        }*/
+        
+        /*for(int i=0;i<Omegas.size();i++){
+            for(int j=0;j<Omegas.get(i).size();j++){
+                System.out.print("  Omegas("+i+")= "+Omegas.get(i).get(j).getId());
+            }
+            System.out.println(" ");
+        }*/
+       
         System.out.println("=== TERMINA ALGORITMO 2 ===");
     }
        
@@ -449,6 +513,61 @@ public class Block1 {
         }
     }
     
+    
+    public void writeFileE(String outputFileName, int k) {
+        File nFile = new File(outputFileName);
+        Integer[] in;
+        Integer[] ou;
+        in = listE.get(k).getInputs().getArray();
+        ou = listE.get(k).getOutputs().getArray();
+        try (                
+                FileWriter fw = new FileWriter(nFile.getAbsoluteFile(),true);// obj para abrir archivo y excribir
+                BufferedWriter bw = new BufferedWriter(fw);// obj para guardar y preparar para escribir
+                PrintWriter out = new PrintWriter(bw);/*obj para escribir*/) {
+            for (int i = 0; i < in.length; i++ ){
+                out.append(in[i]+"\t");
+            }
+            out.append("\t");            
+            for (int i = 0; i < ou.length; i++ ){
+                out.append(ou[i]+"\t");
+            }     
+            out.append("\n");
+            out.close();
+            bw.close();
+            fw.close();            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    public void writeFileW(String outputFileName, int k) {
+        File nFile = new File(outputFileName);
+        Integer[] in;
+        Integer[] ou;
+        in = listW.get(k).getInputs().getArray();
+        ou = listW.get(k).getOutputs().getArray();
+        try (                
+                FileWriter fw = new FileWriter(nFile.getAbsoluteFile(),true);// obj para abrir archivo y excribir
+                BufferedWriter bw = new BufferedWriter(fw);// obj para guardar y preparar para escribir
+                PrintWriter out = new PrintWriter(bw);/*obj para escribir*/) {
+            for (int i = 0; i < in.length; i++ ){
+                out.append(in[i]+"\t");
+            }
+            out.append("\t");            
+            for (int i = 0; i < ou.length; i++ ){
+                out.append(ou[i]+"\t");
+            }     
+            out.append("\n");
+            out.close();
+            bw.close();
+            fw.close();            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private boolean outputDifferentTo0(Integer[] array_Outputs) {
         for (int i = 0; i < array_Outputs.length; i++) {
             if (array_Outputs[i] != 0) {
@@ -460,13 +579,14 @@ public class Block1 {
     
     public void PrintF(){
         for (int i = 0; i < F.size(); i++ ){
-            System.out.println("F id= "+F.get(i).getId());
+            System.out.println("F id= "+F.get(i).getId()+" FS="+FS.get(F.get(i).getId()).getIdFr());
         }
     }
     public void PrintFS(){
         for (int i = 0; i < FS.size(); i++ ){
             System.out.println("FS id= "+FS.get(i).getIdFr()+
                     "  FS time= "+FS.get(i).getTime());
+            //System.out.println(FS.get(i).getIdFr());
         }
     }
 

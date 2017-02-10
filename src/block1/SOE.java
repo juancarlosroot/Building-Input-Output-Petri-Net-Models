@@ -21,6 +21,9 @@ public class SOE {
     public Boolean[] getSOE() {
         return SOE;
     }
+    public IntegerArray getArraySOE() {
+        return array;
+    }
     
     public void setSOE(Boolean[] nSOE) {
         for(int i = 0; i < SOE.length; i++)
@@ -58,5 +61,28 @@ public class SOE {
         }
     }
     
+    public Boolean compareSOE(SOE soe2){
+        for(int i = 0; i < this.SOE.length; i++){
+            if(this.SOE[i]!=soe2.SOE[i]){
+                return false;
+            }
+        }
+        return true;
+    }
     
+    public void printSOE(){
+        for(int i = 0; i < this.SOE.length; i++){
+            System.out.print(this.SOE[i]+" ");
+            
+        }
+        System.out.println();
+    }
+    
+    public void printArraySOE(){
+        for(int i = 0; i < this.array.getArray().length; i++){
+            System.out.print(this.array.getArray()[i]+" ");
+            
+        }
+        System.out.println();
+    }
 }

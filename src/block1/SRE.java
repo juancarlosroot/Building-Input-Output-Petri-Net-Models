@@ -58,6 +58,22 @@ public class SRE {
         }
     }
     
+    public Boolean compareSRE(SRE sre2){
+        for(int i = 0; i < this.SRE.length; i++){
+            if(this.SRE[i]!=sre2.SRE[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public void printSRE(){
+        for(int i = 0; i < this.SRE.length; i++){
+            System.out.print(this.SRE[i]+" ");
+            
+        }
+        System.out.println();
+    }
     
 }
 
